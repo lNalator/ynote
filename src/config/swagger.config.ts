@@ -6,5 +6,7 @@ export const config = new DocumentBuilder()
     'Here lies the API of Ynote, needed for the weel-being of the Ynote app.',
   )
   .setVersion('0.1')
-  .addTag('Ynote')
+  .addTag('Matieres')
+  .addTag('Classes')
+  .addTag('Eleves')
   .build();

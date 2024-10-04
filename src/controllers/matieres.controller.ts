@@ -1,6 +1,8 @@
-import { Controller, Delete, Get } from '@nestjs/common';
+import { Controller, Delete, Get, Param } from '@nestjs/common';
 import { MatieresService } from '../services/matieres.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Matieres')
 @Controller('matieres')
 export class MatieresController {
   constructor(private matieresService: MatieresService) {}
@@ -11,12 +13,12 @@ export class MatieresController {
   }
 
   @Get(':id')
-  async findOne(id: string) {
+  async findOne(@Param('id') id: string) {
     return this.matieresService.findOne(id);
   }
 
-  @Delete()
-  async remove(id: string) {
+  @Delete(':id')
+  async remove(@Param('id') id: string) {
     return this.matieresService.remove(id);
   }
 }

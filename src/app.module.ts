@@ -5,6 +5,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { Matiere } from './models/matiere.model';
 import { MatieresModule } from './modules/matieres.module';
 import { EleveModule } from './modules/eleve.module';
+import { ClasseModule } from './modules/classe.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { EleveModule } from './modules/eleve.module';
     }),
     MatieresModule,
     EleveModule,
+    ClasseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
