@@ -13,7 +13,7 @@ export class MatieresService {
     return this.userModel.findAll();
   }
 
-  findOne(id: string): Promise<Matiere> {
+  async findOne(id: string): Promise<Matiere> {
     return this.userModel
       .findOne({
         where: {

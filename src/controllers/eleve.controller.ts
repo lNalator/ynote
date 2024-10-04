@@ -1,7 +1,9 @@
 import { Controller, Get, BadRequestException, NotFoundException, Param, Body, Patch, Delete } from '@nestjs/common';
 import { EleveService } from '../services/eleve.service';
 import { Eleve } from '../interfaces/eleve.interface';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Eleves')
 @Controller('eleves')
 export class EleveController{
     constructor(private eleveService: EleveService){}
