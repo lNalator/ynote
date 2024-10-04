@@ -1,5 +1,4 @@
 import { Controller, Get, BadRequestException, NotFoundException, Param, Body, Patch, Delete } from '@nestjs/common';
-import { error } from 'console';
 import { Professeur } from 'src/models/professeur.model';
 import { ProfesseurService } from 'src/services/professeur.service';
 
