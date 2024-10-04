@@ -1,6 +1,6 @@
 import { Controller, Get, BadRequestException, NotFoundException, Param, Body, Patch, Delete } from '@nestjs/common';
-import { EleveService } from './eleve.service';
-import { Eleve } from '../interfaces/eleve.interface';
+import { EleveService } from '../services/eleve.service';
+import { Eleve } from '../models/eleve.model';
 
 @Controller('eleves')
 export class EleveController{
