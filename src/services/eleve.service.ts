@@ -13,23 +13,19 @@ export class EleveService{
         return this.eleves;
     }
 
-    findById(id: string): Promise<Eleve | undefined>{
+    findOne(id: string): Promise<Eleve | undefined>{
         return new Promise((resolve) => {
             const eleve = this.eleves.find((eleve) => eleve.id === id);
             resolve(eleve);
         });
     }
 
-    // updateEleve(id: string, eleve: Partial<Eleve>): Promise<Eleve | undefined> {
-    //     const index = this.eleves.findIndex(e => e.id === id);
-    //     if (index === -1) {
-    //         return Promise.resolve(undefined);
-    //     }
-    //     this.eleves[index] = { ...this.eleves[index], ...eleve };
-    //     return Promise.resolve(this.eleves[index]);
-    // }
+    async update(id: string, eleve: Eleve): Promise<void> {
+        const user = await this.findOne(id);
+        await user.update(eleve);
+      }
 
-    deleteEleve(id: string): Promise<boolean> {
+    delete(id: string): Promise<boolean> {
         const index = this.eleves.findIndex(e => e.id === id);
         if (index !== -1) {
             this.eleves.splice(index, 1);
