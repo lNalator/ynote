@@ -1,19 +1,30 @@
-import { Column, Model, Table } from 'sequelize-typescript';
+import {
+  AutoIncrement,
+  BelongsToMany,
+  Column,
+  Model,
+  PrimaryKey,
+  Table,
+} from 'sequelize-typescript';
+import { Etudier } from './etudier.model';
+import { Matiere } from './matiere.model';
 
 @Table
-export class EleveModel extends Model {
-    @Column
-    nom: string;
+export class Eleve extends Model {
+  @PrimaryKey
+  @AutoIncrement
+  @Column
+  id: string;
 
-    @Column
-    prenom: string;
+  @Column
+  nom: string;
 
-    @Column
-    moyenne: Float32Array;
-}
+  @Column
+  prenom: string;
 
-export interface Eleve{
-    id: string;
-    nom: string;
-    prenom: string;
+  @Column
+  moyenne: number;
+
+  @BelongsToMany(() => Matiere, () => Etudier)
+  matieres: Matiere[];
 }

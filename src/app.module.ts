@@ -2,11 +2,9 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { Matiere } from './models/matiere.model';
 import { MatieresModule } from './modules/matieres.module';
 import { EleveModule } from './modules/eleve.module';
 import { ClasseModule } from './modules/classe.module';
-
 @Module({
   imports: [
     SequelizeModule.forRoot({
@@ -16,9 +14,8 @@ import { ClasseModule } from './modules/classe.module';
       username: 'root',
       password: 'root',
       database: 'test',
-      models: [Matiere],
-      // autoLoadModels: true,
-      // synchronize: true,
+      autoLoadModels: true,
+      synchronize: true,
     }),
     MatieresModule,
     EleveModule,

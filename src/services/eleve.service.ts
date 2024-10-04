@@ -20,14 +20,14 @@ export class EleveService{
         });
     }
 
-    updateEleve(id: string, eleve: Partial<Eleve>): Promise<Eleve | undefined> {
-        const index = this.eleves.findIndex(e => e.id === id);
-        if (index === -1) {
-            return Promise.resolve(undefined);
-        }
-        this.eleves[index] = { ...this.eleves[index], ...eleve };
-        return Promise.resolve(this.eleves[index]);
-    }
+    // updateEleve(id: string, eleve: Partial<Eleve>): Promise<Eleve | undefined> {
+    //     const index = this.eleves.findIndex(e => e.id === id);
+    //     if (index === -1) {
+    //         return Promise.resolve(undefined);
+    //     }
+    //     this.eleves[index] = { ...this.eleves[index], ...eleve };
+    //     return Promise.resolve(this.eleves[index]);
+    // }
 
     deleteEleve(id: string): Promise<boolean> {
         const index = this.eleves.findIndex(e => e.id === id);
