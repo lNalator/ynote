@@ -16,7 +16,7 @@ export class Matiere extends Model {
   @PrimaryKey
   @AutoIncrement
   @Column
-  id: string;
+  id: number;
 
   @Column
   nom: string;

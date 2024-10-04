@@ -2,6 +2,7 @@ import {
   AutoIncrement,
   BelongsToMany,
   Column,
+  ForeignKey,
   HasMany,
   Model,
   PrimaryKey,
@@ -16,10 +17,13 @@ export class Classe extends Model {
   @PrimaryKey
   @AutoIncrement
   @Column
-  id: string;
+  id: number;
 
   @Column
   libelle: string;
+
+  @ForeignKey(() => Eleve)
+  elevesIds: number[];
 
   @HasMany(() => Eleve)
   eleves: Eleve[];
