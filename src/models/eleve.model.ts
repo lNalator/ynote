@@ -2,12 +2,14 @@ import {
   AutoIncrement,
   BelongsToMany,
   Column,
+  HasMany,
   Model,
   PrimaryKey,
   Table,
 } from 'sequelize-typescript';
 import { Etudier } from './etudier.model';
 import { Matiere } from './matiere.model';
+import { Note } from './note.model';
 
 @Table
 export class Eleve extends Model {
@@ -27,4 +29,7 @@ export class Eleve extends Model {
 
   @BelongsToMany(() => Matiere, () => Etudier)
   matieres: Matiere[];
+
+  @HasMany(() => Note)
+  notes: Note[];
 }

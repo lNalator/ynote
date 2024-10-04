@@ -1,5 +1,6 @@
 import {
   AutoIncrement,
+  BelongsToMany,
   Column,
   HasMany,
   Model,
@@ -7,6 +8,8 @@ import {
   Table,
 } from 'sequelize-typescript';
 import { Eleve } from './eleve.model';
+import { Professeur } from './professeur.model';
+import { Diriger } from './diriger.models';
 
 @Table
 export class Classe extends Model {
@@ -21,5 +24,7 @@ export class Classe extends Model {
   @HasMany(() => Eleve)
   eleves: Eleve[];
 
+  @BelongsToMany(() => Professeur, () => Diriger)
+  professeurs: Professeur[];
 
 }
