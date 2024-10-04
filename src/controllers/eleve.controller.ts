@@ -34,7 +34,7 @@ export class EleveController {
   @Get(':id')
   async findById(@Param('id') id: string): Promise<Eleve> {
     try {
-      const eleve = await this.eleveService.findById(id);
+      const eleve = await this.eleveService.findOne(id);
       if (!eleve) {
         throw new NotFoundException(`Élève avec ID ${id} non trouvé`);
       }
@@ -45,34 +45,34 @@ export class EleveController {
     }
   }
 
-//   @Patch(':id')
-//   async updateEleve(
-//     @Param('id') id: string,
-//     @Body() eleve: Partial<Eleve>,
-//   ): Promise<Eleve | undefined> {
-//     try {
-//       console.log(`Mise à jour de l'élève avec ID : ${id}`);
+  //   @Patch(':id')
+  //   async updateEleve(
+  //     @Param('id') id: string,
+  //     @Body() eleve: Partial<Eleve>,
+  //   ): Promise<Eleve | undefined> {
+  //     try {
+  //       console.log(`Mise à jour de l'élève avec ID : ${id}`);
 
-//       const updatedEleve = await this.eleveService.updateEleve(id, eleve);
-//       console.log("Mise à jour de l'élève effectuée avec succès");
+  //       const updatedEleve = await this.eleveService.updateEleve(id, eleve);
+  //       console.log("Mise à jour de l'élève effectuée avec succès");
 
-//       return updatedEleve;
-//     } catch (error) {
-//       console.error("Erreur lors de la mise à jour de l'élève:", error);
-//       throw new NotFoundException(`Élève avec ID ${id} non trouvé`);
-//     }
-//   }
+  //       return updatedEleve;
+  //     } catch (error) {
+  //       console.error("Erreur lors de la mise à jour de l'élève:", error);
+  //       throw new NotFoundException(`Élève avec ID ${id} non trouvé`);
+  //     }
+  //   }
 
-  @Delete(':id')
-  async deleteEleve(@Param('id') id: string): Promise<void> {
-    try {
-      console.log(`Suppression de l'élève avec ID : ${id}`);
+  //   @Delete(':id')
+  //   async deleteEleve(@Param('id') id: string): Promise<void> {
+  //     try {
+  //       console.log(`Suppression de l'élève avec ID : ${id}`);
 
-      await this.eleveService.deleteEleve(id);
-      console.log("Suppression de l'élève effectuée avec succès");
-    } catch (error) {
-      console.error("Erreur lors de la suppression de l'élève:", error);
-      throw new NotFoundException(`Élève avec ID ${id} non trouvé`);
-    }
-  }
+  //       await this.eleveService.deleteEleve(id);
+  //       console.log("Suppression de l'élève effectuée avec succès");
+  //     } catch (error) {
+  //       console.error("Erreur lors de la suppression de l'élève:", error);
+  //       throw new NotFoundException(`Élève avec ID ${id} non trouvé`);
+  //     }
+  //   }
 }

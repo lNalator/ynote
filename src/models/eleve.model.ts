@@ -2,19 +2,22 @@ import {
   AutoIncrement,
   BelongsToMany,
   Column,
+  ForeignKey,
+  HasOne,
   Model,
   PrimaryKey,
   Table,
 } from 'sequelize-typescript';
 import { Etudier } from './etudier.model';
 import { Matiere } from './matiere.model';
+import { Classe } from './classe.model';
 
 @Table
 export class Eleve extends Model {
   @PrimaryKey
   @AutoIncrement
   @Column
-  id: string;
+  id: number;
 
   @Column
   nom: string;
@@ -24,6 +27,12 @@ export class Eleve extends Model {
 
   @Column
   moyenne: number;
+
+  @ForeignKey(() => Classe)
+  classeId: number;
+
+  @HasOne(() => Classe)
+  classe: Classe;
 
   @BelongsToMany(() => Matiere, () => Etudier)
   matieres: Matiere[];

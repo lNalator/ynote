@@ -1,6 +1,7 @@
-import { Controller, Delete, Get, Param } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { ApiAcceptedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Classe } from 'src/models/classe.model';
+import { CreateClasseDTO } from 'src/resources/createClasse.ressource';
 import { ClasseService } from 'src/services/classe.service';
 
 @ApiTags('Classes')
@@ -16,6 +17,13 @@ export class ClasseController {
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Classe> {
     return this.classeService.findOne(id);
+  }
+
+  @ApiAcceptedResponse({ type: CreateClasseDTO })
+  @ApiOkResponse({ type: Classe })
+  @Post()
+  async create(@Body() createClasseDTO: CreateClasseDTO): Promise<Classe> {
+    return this.classeService.create(createClasseDTO);
   }
 
   @Delete(':id')
