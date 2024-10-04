@@ -11,6 +11,7 @@ import {
 import { EleveService } from '../services/eleve.service';
 import { Eleve } from '../models/eleve.model';
 import { ApiTags } from '@nestjs/swagger';
+
 @ApiTags('Eleves')
 @Controller('eleves')
 export class EleveController {
@@ -44,23 +45,23 @@ export class EleveController {
     }
   }
 
-  @Patch(':id')
-  async updateEleve(
-    @Param('id') id: string,
-    @Body() eleve: Partial<Eleve>,
-  ): Promise<Eleve | undefined> {
-    try {
-      console.log(`Mise à jour de l'élève avec ID : ${id}`);
+//   @Patch(':id')
+//   async updateEleve(
+//     @Param('id') id: string,
+//     @Body() eleve: Partial<Eleve>,
+//   ): Promise<Eleve | undefined> {
+//     try {
+//       console.log(`Mise à jour de l'élève avec ID : ${id}`);
 
-      const updatedEleve = await this.eleveService.updateEleve(id, eleve);
-      console.log("Mise à jour de l'élève effectuée avec succès");
+//       const updatedEleve = await this.eleveService.updateEleve(id, eleve);
+//       console.log("Mise à jour de l'élève effectuée avec succès");
 
-      return updatedEleve;
-    } catch (error) {
-      console.error("Erreur lors de la mise à jour de l'élève:", error);
-      throw new NotFoundException(`Élève avec ID ${id} non trouvé`);
-    }
-  }
+//       return updatedEleve;
+//     } catch (error) {
+//       console.error("Erreur lors de la mise à jour de l'élève:", error);
+//       throw new NotFoundException(`Élève avec ID ${id} non trouvé`);
+//     }
+//   }
 
   @Delete(':id')
   async deleteEleve(@Param('id') id: string): Promise<void> {
