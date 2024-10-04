@@ -1,5 +1,5 @@
 import { Controller, Delete, Get } from '@nestjs/common';
-import { MatieresService } from '../../services/matieres.service';
+import { MatieresService } from '../services/matieres.service';
 
 @Controller('matieres')
 export class MatieresController {

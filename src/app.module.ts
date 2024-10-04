@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './controllers/app.controller';
-import { AppService } from './services/app.service';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { Matiere } from './tables/matiere/matiere.model';
+import { Matiere } from './models/matiere.model';
+import { MatieresModule } from './modules/matieres.module';
+import { EleveModule } from './modules/eleve.module';
 
 @Module({
   imports: [
@@ -17,6 +19,8 @@ import { Matiere } from './tables/matiere/matiere.model';
       // autoLoadModels: true,
       // synchronize: true,
     }),
+    MatieresModule,
+    EleveModule,
   ],
   controllers: [AppController],
   providers: [AppService],

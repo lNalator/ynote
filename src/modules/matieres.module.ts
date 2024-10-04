@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { Matiere } from './matiere.model';
-import { MatieresService } from '../../services/matieres.service';
-import { MatieresController } from './matieres.controller';
+import { Matiere } from '../models/matiere.model';
+import { MatieresService } from '../services/matieres.service';
+import { MatieresController } from '../controllers/matieres.controller';
 
 @Module({
   imports: [SequelizeModule.forFeature([Matiere])],
