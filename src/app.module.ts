@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './controllers/app.controller';
-import { AppService } from './app.service';
+import { AppService } from './services/app.service';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Matiere } from './tables/matiere/matiere.model';
 
