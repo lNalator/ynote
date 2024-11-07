@@ -22,7 +22,7 @@ export class Matiere extends Model {
   nom: string;
 
   @BelongsToMany(() => Eleve, () => Etudier)
-  etudiants: Eleve[];
+  etudiants: Array<Eleve & { etudier: Etudier }>;
 
   @HasMany(() => Note)
   notes: Note[];

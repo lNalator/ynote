@@ -7,10 +7,12 @@ import {
   Body,
   Patch,
   Delete,
+  Post,
 } from '@nestjs/common';
 import { EleveService } from '../services/eleve.service';
 import { Eleve } from '../models/eleve.model';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiAcceptedResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { CreateEleveDto } from 'src/resources/createEleve.ressource';
 
 @ApiTags('Eleves')
 @Controller('eleves')
@@ -19,60 +21,23 @@ export class EleveController {
 
   @Get()
   async findAll(): Promise<Eleve[]> {
-    try {
-      const eleves = await this.eleveService.findAll();
-      if (!eleves.length) {
-        throw new NotFoundException('No eleves found');
-      }
-      return eleves;
-    } catch (error) {
-      console.error('Error fetching eleves:', error);
-      throw new BadRequestException('Failed to fetch eleves');
-    }
+    return this.eleveService.findAll();
   }
 
   @Get(':id')
-  async findById(@Param('id') id: string): Promise<Eleve> {
-    try {
-      const eleve = await this.eleveService.findOne(id);
-      if (!eleve) {
-        throw new NotFoundException(`Élève avec ID ${id} non trouvé`);
-      }
-      return eleve;
-    } catch (error) {
-      console.error("Erreur lors de la recherche de l'élève:", error);
-      throw new NotFoundException(`Élève avec ID ${id} non trouvé`);
-    }
+  async findById(@Param('id') id: number): Promise<Eleve> {
+    return this.eleveService.findOne(id);
   }
 
-//   @Patch(':id')
-//   async updateEleve(
-//     @Param('id') id: string,
-//     @Body() eleve: Partial<Eleve>,
-//   ): Promise<Eleve | undefined> {
-//     try {
-//       console.log(`Mise à jour de l'élève avec ID : ${id}`);
+  @ApiAcceptedResponse({ type: CreateEleveDto })
+  @ApiResponse({ type: Eleve })
+  @Post()
+  async create(@Body() createEleveDto: CreateEleveDto): Promise<Eleve> {
+    return this.eleveService.create(createEleveDto);
+  }
 
-//       const updatedEleve = await this.eleveService.updateEleve(id, eleve);
-//       console.log("Mise à jour de l'élève effectuée avec succès");
-
-//       return updatedEleve;
-//     } catch (error) {
-//       console.error("Erreur lors de la mise à jour de l'élève:", error);
-//       throw new NotFoundException(`Élève avec ID ${id} non trouvé`);
-//     }
-//   }
-
-  //   @Delete(':id')
-  //   async deleteEleve(@Param('id') id: string): Promise<void> {
-  //     try {
-  //       console.log(`Suppression de l'élève avec ID : ${id}`);
-
-  //       await this.eleveService.deleteEleve(id);
-  //       console.log("Suppression de l'élève effectuée avec succès");
-  //     } catch (error) {
-  //       console.error("Erreur lors de la suppression de l'élève:", error);
-  //       throw new NotFoundException(`Élève avec ID ${id} non trouvé`);
-  //     }
-  //   }
+  @Delete(':id')
+  async deleteEleve(@Param('id') id: number): Promise<void> {
+    return this.eleveService.remove(id);
+  }
 }

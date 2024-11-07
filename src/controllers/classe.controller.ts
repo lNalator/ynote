@@ -15,19 +15,18 @@ export class ClasseController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<Classe> {
+  async findOne(@Param('id') id: number): Promise<Classe> {
     return this.classeService.findOne(id);
   }
 
   @ApiAcceptedResponse({ type: CreateClasseDTO })
-  @ApiOkResponse({ type: Classe })
   @Post()
   async create(@Body() createClasseDTO: CreateClasseDTO): Promise<Classe> {
     return this.classeService.create(createClasseDTO);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string): Promise<void> {
+  async remove(@Param('id') id: number): Promise<void> {
     return this.classeService.remove(id);
   }
 }

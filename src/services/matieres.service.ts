@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Matiere } from '../models/matiere.model';
 import { CreateMatiereDTO } from 'src/resources/createMatiere.ressource';
+import { Note } from 'src/models/note.model';
+import { Eleve } from 'src/models/eleve.model';
 
 @Injectable()
 export class MatieresService {
@@ -14,20 +16,15 @@ export class MatieresService {
     return this.matiereModel.findAll();
   }
 
-  async findOne(id: string): Promise<Matiere> {
-    return this.matiereModel.findOne({ where: { id } }).then((result) => {
-      if (!result) {
-        throw new Error(`Matiere with id ${id} not found`);
-      }
-      return result;
-    });
+  async findOne(id: number): Promise<Matiere> {
+    return this.matiereModel.findByPk(id, { include: [Note, Eleve] }) as any;
   }
 
-  // async create(createMatiereDTO: CreateMatiereDTO): Promise<Matiere> {
-  //   return this.matiereModel.create(createMatiereDTO);
-  // }
+  async create(createMatiereDTO: CreateMatiereDTO): Promise<Matiere> {
+    return this.matiereModel.create(createMatiereDTO as any);
+  }
 
-  async remove(id: string): Promise<void> {
+  async remove(id: number): Promise<void> {
     const matiere = await this.findOne(id);
     await matiere.destroy();
   }

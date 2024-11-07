@@ -22,13 +22,9 @@ export class Classe extends Model {
   @Column
   libelle: string;
 
-  @ForeignKey(() => Eleve)
-  elevesIds: number[];
-
   @HasMany(() => Eleve)
   eleves: Eleve[];
 
   @BelongsToMany(() => Professeur, () => Diriger)
-  professeurs: Professeur[];
-
+  professeurs: Array<Professeur & { diriger: Diriger }>;
 }

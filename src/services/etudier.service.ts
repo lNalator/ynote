@@ -6,7 +6,7 @@ import { Etudier } from 'src/models/etudier.model';
 export class EtudierService {
   constructor(
     @InjectModel(Etudier)
-    private etudierModel: typeof Etudier,
+    private readonly etudierModel: typeof Etudier,
   ) {}
 
   async findAll(): Promise<Etudier[]> {
@@ -14,17 +14,16 @@ export class EtudierService {
   }
 
   async findOne(id: string): Promise<Etudier> {
-    return this.etudierModel.findOne({ where: { id } }).then((result) => {
-      if (!result) {
-        throw new Error(`Etudier with id ${id} not found`);
-      }
-      return result;
-    });
+    return this.etudierModel.findByPk(id) as any;
   }
 
-//   async create(createEtudierDTO: CreateEtudierDTO): Promise<Etudier> {
-//     return this.etudierModel.create(createEtudierDTO);
-//   }
+  async assignTo(eleveId: number, matiereId: number): Promise<Etudier> {
+    const etudier = {
+      eleveId,
+      matiereId,
+    };
+    return this.etudierModel.create(etudier as any);
+  }
 
   async remove(id: string): Promise<void> {
     const etudier = await this.findOne(id);

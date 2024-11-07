@@ -1,6 +1,5 @@
 import {
   AutoIncrement,
-  BelongsTo,
   Column,
   ForeignKey,
   Model,
@@ -19,9 +18,9 @@ export class Etudier extends Model {
 
   @ForeignKey(() => Eleve)
   @Column
-  eleveId: string;
+  eleveId: number;
 
   @ForeignKey(() => Matiere)
   @Column
-  matiereId: string;
+  matiereId: number;
 }

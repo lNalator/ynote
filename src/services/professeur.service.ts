@@ -1,46 +1,39 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Professeur } from 'src/models/professeur.model';
+import { DirigerService } from './diriger.service';
+import { CreateProfesseurDto } from 'src/resources/createProfesseur.ressource';
+import { Classe } from 'src/models/classe.model';
+import { Note } from 'src/models/note.model';
 
 @Injectable()
-export class ProfesseurService{
-    constructor(
-        @InjectModel(Professeur)
-        private userModel: typeof Professeur,
-      ) {}
+export class ProfesseurService {
+  constructor(
+    @InjectModel(Professeur)
+    private professeurModel: typeof Professeur,
+    private readonly dirigerService: DirigerService,
+  ) {}
 
-      async findAll(): Promise<Professeur[]> {
-        try {
-          return await this.userModel.findAll();
-        } catch (error) {
-          throw new Error('Error fetching all professors');
-        }
-      }
+  async findAll(): Promise<Professeur[]> {
+    return this.professeurModel.findAll();
+  }
 
-      findOne(id: string): Promise<Professeur> {
-        return this.userModel
-          .findOne({
-            where: {
-              id,
-            },
-          })
-          .then((result) => {
-            if (!result) {
-              throw new Error(`User with id ${id} not found`);
-            }
-            return result;
-          });
-      }
+  async findOne(id: number): Promise<Professeur> {
+    return this.professeurModel.findByPk(id, {
+      include: [Classe, Note],
+    }) as any;
+  }
 
-      async update(id: string, professeur: Professeur): Promise<void> {
-        const user = await this.findOne(id);
-        await user.update(professeur);
-      }
+  async create(createProfDTO: CreateProfesseurDto): Promise<Professeur> {
+    const newProf = await this.professeurModel.create(createProfDTO as any);
+    for (const classeId of createProfDTO.classesIds) {
+      await this.dirigerService.assignTo(newProf.id, classeId);
+    }
+    return newProf;
+  }
 
-      async delete(id: string): Promise<void> {
-        const user = await this.findOne(id);
-        await user.destroy();
-      }
-
-
+  async delete(id: number): Promise<void> {
+    const professeur = await this.findOne(id);
+    await professeur.destroy();
+  }
 }

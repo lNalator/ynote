@@ -8,5 +8,6 @@ import { MatieresController } from '../controllers/matieres.controller';
   imports: [SequelizeModule.forFeature([Matiere])],
   providers: [MatieresService],
   controllers: [MatieresController],
+  exports: [MatieresService],
 })
 export class MatieresModule {}

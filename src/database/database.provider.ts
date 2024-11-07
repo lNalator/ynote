@@ -7,5 +7,4 @@ export const dataBaseConfig: SequelizeModuleOptions = {
   logging: console.log,
   autoLoadModels: true,
   synchronize: true,
-  
 };

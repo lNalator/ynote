@@ -4,10 +4,10 @@ import {
   Column,
   HasMany,
   ForeignKey,
-  HasOne,
   Model,
   PrimaryKey,
   Table,
+  BelongsTo,
 } from 'sequelize-typescript';
 import { Etudier } from './etudier.model';
 import { Matiere } from './matiere.model';
@@ -31,14 +31,17 @@ export class Eleve extends Model {
   moyenne: number;
 
   @ForeignKey(() => Classe)
+  @Column
   classeId: number;
 
-  @HasOne(() => Classe)
+  @BelongsTo(() => Classe)
   classe: Classe;
 
   @BelongsToMany(() => Matiere, () => Etudier)
-  matieres: Matiere[];
+  matieres: Array<Matiere & {etudier: Etudier}>;
 
   @HasMany(() => Note)
   notes: Note[];
+
+  
 }

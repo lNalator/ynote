@@ -1,5 +1,5 @@
 import {
-    AutoIncrement,
+  AutoIncrement,
   BelongsTo,
   Column,
   ForeignKey,
@@ -11,17 +11,17 @@ import { Professeur } from './professeur.model';
 import { Classe } from './classe.model';
 
 @Table
-export class Diriger extends Model{
-    @PrimaryKey
-    @AutoIncrement
-    @Column
-    id:string;
-    
-    @ForeignKey(() => Professeur)
-    @Column
-    professeurId: string;
+export class Diriger extends Model {
+  @PrimaryKey
+  @AutoIncrement
+  @Column
+  id: number;
 
-    @ForeignKey(() => Classe)
-    @Column
-    classeId: string;
+  @ForeignKey(() => Professeur)
+  @Column
+  professeurId: number;
+
+  @ForeignKey(() => Classe)
+  @Column
+  classeId: number;
 }

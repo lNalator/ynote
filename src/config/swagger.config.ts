@@ -9,4 +9,6 @@ export const config = new DocumentBuilder()
   .addTag('Matieres')
   .addTag('Classes')
   .addTag('Eleves')
+  .addTag('Professeurs')
+  .addTag('Notes')
   .build();
