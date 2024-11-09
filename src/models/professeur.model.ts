@@ -24,6 +24,9 @@ export class Professeur extends Model {
   @Column 
   prenom: string;
 
+  @Column
+  password: string;
+
   @BelongsToMany(() => Classe, () => Diriger)
   classes: Array<Classe & { diriger: Diriger }>;
 

@@ -3,17 +3,20 @@ import { MatieresService } from '../services/matieres.service';
 import { ApiAcceptedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { CreateMatiereDTO } from 'src/resources/createMatiere.ressource';
 import { Matiere } from 'src/models/matiere.model';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 @ApiTags('Matieres')
 @Controller('matieres')
 export class MatieresController {
   constructor(private matieresService: MatieresService) {}
 
+  @Public()
   @Get()
   async findAll() {
     return this.matieresService.findAll();
   }
 
+  @Public()
   @Get(':id')
   async findOne(@Param('id') id: number) {
     return this.matieresService.findOne(id);

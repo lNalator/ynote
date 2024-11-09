@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import * as bcrypt from 'bcrypt';
 import { Professeur } from 'src/models/professeur.model';
 import { DirigerService } from './diriger.service';
 import { CreateProfesseurDto } from 'src/resources/createProfesseur.ressource';
@@ -24,11 +25,28 @@ export class ProfesseurService {
     }) as any;
   }
 
+  async findByUsername(username: string): Promise<Professeur> {
+    return this.professeurModel.findOne({
+      where: {
+        prenom: username,
+      },
+    }) as any;
+  }
+
   async create(createProfDTO: CreateProfesseurDto): Promise<Professeur> {
-    const newProf = await this.professeurModel.create(createProfDTO as any);
-    for (const classeId of createProfDTO.classesIds) {
-      await this.dirigerService.assignTo(newProf.id, classeId);
+    const saltRound = 10;
+    const hashedPassword = await bcrypt.hash(createProfDTO.nom, saltRound);
+    const newProf = await this.professeurModel.create({
+      ...createProfDTO,
+      password: hashedPassword,
+    } as any);
+
+    if (createProfDTO.classesIds) {
+      for (const classeId of createProfDTO.classesIds) {
+        await this.dirigerService.assignTo(newProf.id, classeId);
+      }
     }
+
     return newProf;
   }
 

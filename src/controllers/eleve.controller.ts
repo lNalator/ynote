@@ -13,17 +13,20 @@ import { EleveService } from '../services/eleve.service';
 import { Eleve } from '../models/eleve.model';
 import { ApiAcceptedResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateEleveDto } from 'src/resources/createEleve.ressource';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 @ApiTags('Eleves')
 @Controller('eleves')
 export class EleveController {
   constructor(private eleveService: EleveService) {}
 
+  @Public()
   @Get()
   async findAll(): Promise<Eleve[]> {
     return this.eleveService.findAll();
   }
 
+  @Public()
   @Get(':id')
   async findById(@Param('id') id: number): Promise<Eleve> {
     return this.eleveService.findOne(id);

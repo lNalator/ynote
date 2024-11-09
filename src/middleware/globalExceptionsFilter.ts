@@ -25,7 +25,7 @@ export class GlobalExceptionsFilter implements ExceptionFilter {
 
     // Verifie si l'exception est une instance de HttpException
     let status = HttpStatus.INTERNAL_SERVER_ERROR;
-    let errorMessage = 'Internal server error';
+    let errorMessage = exception.message;
 
     switch (true) {
       case exception instanceof HttpException:

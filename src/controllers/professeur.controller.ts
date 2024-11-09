@@ -13,17 +13,20 @@ import { Professeur } from 'src/models/professeur.model';
 import { ProfesseurService } from 'src/services/professeur.service';
 import { ApiAcceptedResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateProfesseurDto } from 'src/resources/createProfesseur.ressource';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 @ApiTags('Professeurs')
 @Controller('professeurs')
 export class ProfesseurController {
   constructor(private professeurService: ProfesseurService) {}
 
+  @Public()
   @Get()
   async findAll() {
     return this.professeurService.findAll();
   }
 
+  @Public()
   @Get(':id')
   async findById(@Param('id') id: number): Promise<Professeur> {
     return this.professeurService.findOne(id);

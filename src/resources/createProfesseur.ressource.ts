@@ -15,7 +15,7 @@ export class CreateProfesseurDto {
 
   @ApiProperty({
     example: [1, 2],
-    required: true,
+    required: false,
   })
   classesIds: number[];
 }

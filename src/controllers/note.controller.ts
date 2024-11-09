@@ -13,17 +13,20 @@ import { Note } from 'src/models/note.model';
 import { NoteService } from 'src/services/note.service';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateNoteDto } from 'src/resources/createNote.ressource';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 @ApiTags('Notes')
 @Controller('notes')
 export class NoteController {
   constructor(private noteService: NoteService) {}
 
+  @Public()
   @Get()
   async findAll() {
     return this.noteService.findAll();
   }
 
+  @Public()
   @Get(':id')
   async findById(@Param('id') id: number): Promise<Note> {
     return this.noteService.findOne(id);
