@@ -26,11 +26,11 @@ export class CreateUserDto {
   password: string;
 
   @ApiProperty({
-    example: [2],
-    description: 'Liste des roles',
+    example: 1,
+    description: 'Id du role',
     required: true,
   })
-  roles: [number];
+  roleId: number;
 
   @ApiProperty({
     example: [1, 2],
@@ -41,16 +41,9 @@ export class CreateUserDto {
   matieresIds: number[];
 
   @ApiProperty({
-    example: 1,
-    description: "Id de la classe, dans le cas ou l'utilisateur est un eleve",
-    required: false,
-  })
-  classeId: number;
-
-  @ApiProperty({
     example: [1, 2],
     description:
-      "Liste des classes, dans le cas ou l'utilisateur est un professeur",
+      "Liste des classes, dans le cas ou l'utilisateur est un professeur ou un eleve",
     required: false,
   })
   classesIds: number[];

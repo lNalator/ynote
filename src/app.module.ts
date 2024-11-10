@@ -13,7 +13,7 @@ import { SeederModule } from './database/seeder.module';
 import { UserModule } from './modules/user.module';
 import { RoleModule } from './modules/role.module';
 import { UserMatiereModule } from './modules/userMatiere.module';
-import { ProfClasseModule } from './modules/profClasse.module';
+import { UserClasseModule } from './modules/userClasse.module';
 
 @Module({
   imports: [
@@ -25,7 +25,7 @@ import { ProfClasseModule } from './modules/profClasse.module';
     UserModule,
     RoleModule,
     UserMatiereModule,
-    ProfClasseModule,
+    UserClasseModule,
     AuthModule,
     SeederModule,
   ],

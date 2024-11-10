@@ -6,10 +6,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth.guard';
 import { UserModule } from 'src/modules/user.module';
+import { RolesGuard } from './roles.guard';
+import { RoleModule } from 'src/modules/role.module';
 
 @Module({
   imports: [
     UserModule,
+    RoleModule,
     JwtModule.registerAsync({
       global: true,
       imports: [ConfigModule],
@@ -26,6 +29,10 @@ import { UserModule } from 'src/modules/user.module';
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
   ],
 })

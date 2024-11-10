@@ -11,7 +11,7 @@ import { Classe } from './classe.model';
 import { User } from './user.model';
 
 @Table
-export class ProfClasse extends Model {
+export class UserClasse extends Model {
   @PrimaryKey
   @AutoIncrement
   @Column

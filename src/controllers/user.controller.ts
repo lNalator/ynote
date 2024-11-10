@@ -1,9 +1,10 @@
 import { Controller, Get, Param, Body, Delete, Post } from '@nestjs/common';
-import { ApiAcceptedResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiAcceptedResponse, ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { UserService } from 'src/services/user.service';
 import { User } from 'src/models/user.model';
 import { CreateUserDto } from 'src/resources/createUser.ressource';
+import { Role, Roles } from 'src/auth/decorators/role.decorator';
 
 @ApiTags('Users')
 @Controller('users')
@@ -22,6 +23,8 @@ export class UserController {
     return this.userService.findOne(id);
   }
 
+  @ApiBearerAuth()
+  @Roles(Role.ADMIN)
   @ApiAcceptedResponse({ type: CreateUserDto })
   @ApiResponse({ type: User })
   @Post()
@@ -29,6 +32,8 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
+  @ApiBearerAuth()
+  @Roles(Role.ADMIN)
   @Delete(':id')
   async deleteUser(@Param('id') id: number): Promise<void> {
     return this.userService.remove(id);

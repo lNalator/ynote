@@ -5,6 +5,7 @@ import { RoleService } from 'src/services/role.service';
 import { UserService } from 'src/services/user.service';
 import { CreateUserDto } from 'src/resources/createUser.ressource';
 import { ConfigService } from '@nestjs/config';
+import { Role } from 'src/auth/decorators/role.decorator';
 
 @Injectable()
 export class SeederService implements OnModuleInit {
@@ -18,24 +19,27 @@ export class SeederService implements OnModuleInit {
     const adminRole = await this.roleService.findOne(1);
     if (!adminRole) {
       await this.roleService.create({
-        name: 'Admin',
+        name: Role.ADMIN,
       });
       console.log('Admin role created. ');
     }
+
     const profRole = await this.roleService.findOne(2);
     if (!profRole) {
       await this.roleService.create({
-        name: 'Prof',
+        name: Role.PROFESSEUR,
       });
       console.log('Prof role created. ');
     }
+
     const eleveRole = await this.roleService.findOne(3);
     if (!eleveRole) {
       await this.roleService.create({
-        name: 'Eleve',
+        name: Role.ELEVE,
       });
       console.log('Eleve role created. ');
     }
+
     const existingUser = await this.userService.findByEmail('admin@ynote.io');
     if (!existingUser) {
       await this.userService.create({
@@ -43,7 +47,7 @@ export class SeederService implements OnModuleInit {
         prenom: 'Admin',
         nom: 'Admin',
         password: this.configService.get('ADMIN_PASSWORD') as string,
-        roles: [1],
+        roleId: 1,
       } as CreateUserDto);
       console.log('Admin user created. ');
     }

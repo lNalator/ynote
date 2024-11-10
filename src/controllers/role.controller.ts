@@ -6,11 +6,13 @@ import {
   Delete,
   Post,
 } from '@nestjs/common';
-import { ApiAcceptedResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiAcceptedResponse, ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateRoleDto } from 'src/resources/createRole.ressource';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { RoleService } from 'src/services/role.service';
 import { Role } from 'src/models/role.model';
+import { Roles } from 'src/auth/decorators/role.decorator';
+import { Role as RoleEnum } from "../auth/decorators/role.decorator";
 
 @ApiTags('Roles')
 @Controller('roles')
@@ -29,6 +31,8 @@ export class RoleController {
     return this.roleService.findOne(id);
   }
 
+  @ApiBearerAuth()
+  @Roles(RoleEnum.ADMIN)
   @ApiAcceptedResponse({ type: CreateRoleDto })
   @ApiResponse({ type: Role })
   @Post()
@@ -36,6 +40,8 @@ export class RoleController {
     return this.roleService.create(createRoleDto);
   }
 
+  @ApiBearerAuth()
+  @Roles(RoleEnum.ADMIN)
   @Delete(':id')
   async deleteRole(@Param('id') id: number): Promise<void> {
     return this.roleService.remove(id);

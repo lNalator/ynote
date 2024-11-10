@@ -15,7 +15,7 @@ import { Classe } from './classe.model';
 import { Role } from './role.model';
 import { Matiere } from './matiere.model';
 import { UserMatiere } from './userMatiere.model';
-import { ProfClasse } from './profClasse.models';
+import { UserClasse } from './userClasse.models';
 
 @Table
 export class User extends Model {
@@ -35,11 +35,11 @@ export class User extends Model {
 
   @Column
   password: string;
-  
+
   @ForeignKey(() => Role)
   @Column
-  roleId: number
-  
+  roleId: number;
+
   @BelongsTo(() => Role)
   role: Role;
 
@@ -52,19 +52,11 @@ export class User extends Model {
   notes: Note[];
 
   //dans le cas ou l'user est un eleve
-  @ForeignKey(() => Classe)
-  @Column
-  classeId: number;
-
-  //dans le cas ou l'user est un eleve
-  @BelongsTo(() => Classe)
-  classe: Classe;
-
-  //dans le cas ou l'user est un eleve
   @BelongsToMany(() => Matiere, () => UserMatiere)
   matieres: Array<Matiere & { userMatiere: UserMatiere }>;
 
-  //dans le cas ou l'user est un professeur
-  @BelongsToMany(() => Classe, () => ProfClasse)
-  classes: Array<Classe & { profClasse: ProfClasse }>;
+  //dans le cas ou l'user est un eleve -> l'array ne possede qu'un seul element
+  //dans le cas ou l'user est un prof -> l'array peut contenir plusieurs elements
+  @BelongsToMany(() => Classe, () => UserClasse)
+  classes: Array<Classe & { userClasse: UserClasse }>;
 }

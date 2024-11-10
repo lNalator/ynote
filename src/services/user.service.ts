@@ -4,20 +4,20 @@ import { CreateUserDto } from 'src/resources/createUser.ressource';
 import { Matiere } from 'src/models/matiere.model';
 import { Classe } from 'src/models/classe.model';
 import { Note } from 'src/models/note.model';
-import { UserMatiererService } from './userMatiere.service';
+import { UserMatiereService } from './userMatiere.service';
 import { User } from 'src/models/user.model';
 import { Role } from 'src/models/role.model';
 import { RoleService } from './role.service';
 import * as bcrypt from 'bcrypt';
-import { ProfClasseService } from './profClasse.service';
+import { UserClasseService } from './userClasse.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User)
     private userModel: typeof User,
-    private readonly userMatierService: UserMatiererService,
-    private readonly profClasseService: ProfClasseService,
+    private readonly userMatierService: UserMatiereService,
+    private readonly userClasseService: UserClasseService,
     private readonly roleService: RoleService,
   ) {}
 
@@ -28,23 +28,8 @@ export class UserService {
   async findOne(id: number): Promise<User> {
     //TODO : CHANGE TO INCLUDE BASED ON ROLE
     return this.userModel.findByPk(id, {
-      include: [Role],
+      include: [Role, Note, Classe],
     }) as any;
-    // .then((user: User) => {
-    //   if (user.role.name === 'Eleve') {
-    //     return this.userModel.findByPk(id, {
-    //       include: [Role, Note],
-    //     }) as any;
-    //   } else if (user.role.name === 'Professeur') {
-    //     return this.userModel.findByPk(id, {
-    //       include: [Role, Classe],
-    //     }) as any;
-    //   } else {
-    //     return this.userModel.findByPk(id, {
-    //       include: [Role],
-    //     }) as any;
-    //   }
-    // }) as Promise<User>;
   }
 
   async findByEmail(email: string): Promise<User> {
@@ -57,7 +42,9 @@ export class UserService {
 
   async updateMoyenne(id: number): Promise<void> {
     const userToUpdate = await this.findOne(id);
-    if (userToUpdate.role.name !== 'Eleve') return;
+    const role = await this.roleService.findOne(userToUpdate.roleId);
+
+    if (role.name !== 'Eleve') return;
     const notes = await userToUpdate.$get('notes');
     let moyenne = 0;
     for (const note of notes) {
@@ -74,17 +61,17 @@ export class UserService {
       saltRound,
     );
     const newUser = await this.userModel.create(createUserDTO as any);
-    const roleName = newUser.role.$get('name') as unknown as string;
+    const role = await this.roleService.findOne(createUserDTO.roleId);
 
-    if (roleName === 'Eleve' && createUserDTO.matieresIds) {
+    if (role.name === 'Eleve' && createUserDTO.matieresIds) {
       for (const matiereId of createUserDTO.matieresIds) {
         await this.userMatierService.assignTo(newUser.id, matiereId);
       }
     }
 
-    if (roleName === 'Professeur' && createUserDTO.classesIds) {
+    if (role.name === 'Professeur' && createUserDTO.classesIds) {
       for (const classeId of createUserDTO.classesIds) {
-        await this.profClasseService.assignTo(newUser.id, classeId);
+        await this.userClasseService.assignTo(newUser.id, classeId);
       }
     }
 

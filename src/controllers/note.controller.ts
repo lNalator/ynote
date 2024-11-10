@@ -11,9 +11,10 @@ import {
 } from '@nestjs/common';
 import { Note } from 'src/models/note.model';
 import { NoteService } from 'src/services/note.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateNoteDto } from 'src/resources/createNote.ressource';
 import { Public } from 'src/auth/decorators/public.decorator';
+import { Role, Roles } from 'src/auth/decorators/role.decorator';
 
 @ApiTags('Notes')
 @Controller('notes')
@@ -32,11 +33,15 @@ export class NoteController {
     return this.noteService.findOne(id);
   }
 
+  @ApiBearerAuth()
+  @Roles(Role.ADMIN, Role.PROFESSEUR)
   @Post()
   async create(@Body() createNoteDto: CreateNoteDto): Promise<Note> {
     return this.noteService.create(createNoteDto);
   }
 
+  @ApiBearerAuth()
+  @Roles(Role.ADMIN, Role.PROFESSEUR)
   @Delete(':id')
   async deleteNote(@Param('id') id: number): Promise<void> {
     return this.noteService.delete(id);

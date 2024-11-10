@@ -1,6 +1,12 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
-import { ApiAcceptedResponse, ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiAcceptedResponse,
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Public } from 'src/auth/decorators/public.decorator';
+import { Role, Roles } from 'src/auth/decorators/role.decorator';
 import { Classe } from 'src/models/classe.model';
 import { CreateClasseDTO } from 'src/resources/createClasse.ressource';
 import { ClasseService } from 'src/services/classe.service';
@@ -10,19 +16,20 @@ import { ClasseService } from 'src/services/classe.service';
 export class ClasseController {
   constructor(private classeService: ClasseService) {}
 
-  @ApiBearerAuth()
+  @Public()
   @Get()
   async findAll(): Promise<Classe[]> {
     return this.classeService.findAll();
   }
 
-  @ApiBearerAuth()
+  @Public()
   @Get(':id')
   async findOne(@Param('id') id: number): Promise<Classe> {
     return this.classeService.findOne(id);
   }
 
   @ApiBearerAuth()
+  @Roles(Role.ADMIN)
   @ApiAcceptedResponse({ type: CreateClasseDTO })
   @Post()
   async create(@Body() createClasseDTO: CreateClasseDTO): Promise<Classe> {
@@ -30,6 +37,7 @@ export class ClasseController {
   }
 
   @ApiBearerAuth()
+  @Roles(Role.ADMIN)
   @Delete(':id')
   async remove(@Param('id') id: number): Promise<void> {
     return this.classeService.remove(id);
