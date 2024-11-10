@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Matiere } from '../models/matiere.model';
 import { CreateMatiereDTO } from 'src/resources/createMatiere.ressource';
 import { Note } from 'src/models/note.model';
-import { Eleve } from 'src/models/eleve.model';
+import { User } from 'src/models/user.model';
 
 @Injectable()
 export class MatieresService {
@@ -17,7 +17,7 @@ export class MatieresService {
   }
 
   async findOne(id: number): Promise<Matiere> {
-    return this.matiereModel.findByPk(id, { include: [Note, Eleve] }) as any;
+    return this.matiereModel.findByPk(id, { include: [Note, User] }) as any;
   }
 
   async create(createMatiereDTO: CreateMatiereDTO): Promise<Matiere> {

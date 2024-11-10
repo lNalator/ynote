@@ -1,0 +1,32 @@
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
+import { UserMatiere } from 'src/models/userMatiere.model';
+
+@Injectable()
+export class UserMatiererService {
+  constructor(
+    @InjectModel(UserMatiere)
+    private userMatiereModel: typeof UserMatiere,
+  ) {}
+
+  async findAll(): Promise<UserMatiere[]> {
+    return this.userMatiereModel.findAll();
+  }
+
+  async findOne(id: string): Promise<UserMatiere> {
+    return this.userMatiereModel.findByPk(id) as any;
+  }
+
+  async assignTo(userId: number, matiereId: number): Promise<UserMatiere> {
+    const userMatiere = {
+      userId,
+      matiereId,
+    };
+    return this.userMatiereModel.create(userMatiere as any);
+  }
+
+  async remove(id: string): Promise<void> {
+    const userMatiere = await this.findOne(id);
+    await userMatiere.destroy();
+  }
+}

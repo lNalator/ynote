@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Classe } from 'src/models/classe.model';
-import { Eleve } from 'src/models/eleve.model';
-import { Professeur } from 'src/models/professeur.model';
+import { Matiere } from 'src/models/matiere.model';
+import { User } from 'src/models/user.model';
+
 import { CreateClasseDTO } from 'src/resources/createClasse.ressource';
 
 @Injectable()
@@ -18,7 +19,7 @@ export class ClasseService {
 
   async findOne(id: number): Promise<Classe> {
     return this.classeModel.findByPk(id, {
-      include: [Eleve, Professeur],
+      include: [User],
     }) as any;
   }
 

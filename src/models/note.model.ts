@@ -8,9 +8,8 @@ import {
   PrimaryKey,
   Table,
 } from 'sequelize-typescript';
-import { Eleve } from './eleve.model';
 import { Matiere } from './matiere.model';
-import { Professeur } from './professeur.model';
+import { User } from './user.model';
 
 @Table
 export class Note extends Model {
@@ -23,7 +22,7 @@ export class Note extends Model {
   @Column
   valeur: number;
 
-  @ForeignKey(() => Eleve)
+  @ForeignKey(() => User)
   @Column
   eleveId: number;
 
@@ -31,15 +30,8 @@ export class Note extends Model {
   @Column
   matiereId: number;
 
-  @ForeignKey(() => Professeur)
-  @Column
-  professeurId: number;
-
-  @BelongsTo(() => Eleve)
-  eleve: Eleve;
-
-  @BelongsTo(() => Professeur)
-  professeur: Professeur;
+  @BelongsTo(() => User)
+  eleve: User;
 
   @BelongsTo(() => Matiere)
   matiere: Matiere;

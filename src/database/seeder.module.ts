@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { SeederService } from './seeder.service';
-import { ProfesseurModule } from 'src/modules/professeur.module';
+import { RoleModule } from 'src/modules/role.module';
+import { UserModule } from 'src/modules/user.module';
 
 @Module({
-  imports: [ProfesseurModule],
+  imports: [RoleModule, UserModule],
   providers: [SeederService],
   exports: [SeederService],
 })

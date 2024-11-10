@@ -1,27 +1,26 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { ProfesseurService } from '../services/professeur.service';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { UserService } from 'src/services/user.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly professeurService: ProfesseurService,
+    private readonly userService: UserService,
     private readonly jwtService: JwtService,
-    private readonly configService: ConfigService,
   ) {}
 
   async signIn(
-    username: string,
-    pass: string,
+    email: string,
+    password: string,
   ): Promise<{ access_token: string }> {
-    const user = await this.professeurService.findByUsername(username);
+    const user = await this.userService.findByEmail(email);
     if (!user) {
       throw new UnauthorizedException('Utilisateur non trouvé');
     }
 
-    const isPasswordValid = await bcrypt.compare(pass, user.password);
+    const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       throw new UnauthorizedException();
     }

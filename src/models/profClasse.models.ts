@@ -7,19 +7,19 @@ import {
   PrimaryKey,
   Table,
 } from 'sequelize-typescript';
-import { Professeur } from './professeur.model';
 import { Classe } from './classe.model';
+import { User } from './user.model';
 
 @Table
-export class Diriger extends Model {
+export class ProfClasse extends Model {
   @PrimaryKey
   @AutoIncrement
   @Column
   id: number;
 
-  @ForeignKey(() => Professeur)
+  @ForeignKey(() => User)
   @Column
-  professeurId: number;
+  profId: number;
 
   @ForeignKey(() => Classe)
   @Column

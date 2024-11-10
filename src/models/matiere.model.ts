@@ -7,9 +7,9 @@ import {
   PrimaryKey,
   Table,
 } from 'sequelize-typescript';
-import { Etudier } from './etudier.model';
-import { Eleve } from './eleve.model';
 import { Note } from './note.model';
+import { UserMatiere } from './userMatiere.model';
+import { User } from './user.model';
 
 @Table
 export class Matiere extends Model {
@@ -21,8 +21,8 @@ export class Matiere extends Model {
   @Column
   nom: string;
 
-  @BelongsToMany(() => Eleve, () => Etudier)
-  etudiants: Array<Eleve & { etudier: Etudier }>;
+  @BelongsToMany(() => User, () => UserMatiere)
+  etudiants: Array<User & { userMatiere: UserMatiere }>;
 
   @HasMany(() => Note)
   notes: Note[];
