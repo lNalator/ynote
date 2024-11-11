@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { UserMatiere } from 'src/models/userMatiere.model';
+import { UserService } from './user.service';
+import { MatieresService } from './matieres.service';
 
 @Injectable()
 export class UserMatiereService {

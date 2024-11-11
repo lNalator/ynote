@@ -26,19 +26,26 @@ export class NoteService {
 
   async create(createNoteDTO: CreateNoteDto): Promise<Note> {
     const newNote = await this.noteModel.create(createNoteDTO as any);
-    this.userService.updateMoyenne(createNoteDTO.eleveId);
+    const result = await this.userService.updateMoyenne(
+      createNoteDTO.eleveId,
+      createNoteDTO.matiereId,
+    );
+    if (result && result.errorMessage) {
+      this.delete(newNote.id);
+      throw new Error(result.errorMessage);
+    }
     return newNote;
   }
 
-  async update(id: number, note: Note): Promise<void> {
-    const noteToUpdate = await this.findOne(id);
-    await noteToUpdate.update(note);
-    this.userService.updateMoyenne(noteToUpdate.eleveId);
-  }
+  // async update(id: number, note: Note): Promise<void> {
+  //   const noteToUpdate = await this.findOne(id);
+  //   await noteToUpdate.update(note);
+  //   this.userService.updateMoyenne(noteToUpdate.eleveId);
+  // }
 
   async delete(id: number): Promise<void> {
     const note = await this.findOne(id);
     await note.destroy();
-    this.userService.updateMoyenne(note.eleveId);
+    this.userService.updateMoyenne(note.eleveId, note.matiereId);
   }
 }

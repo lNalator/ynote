@@ -1,9 +1,29 @@
-import { Controller, Get, Param, Body, Delete, Post } from '@nestjs/common';
-import { ApiAcceptedResponse, ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  Controller,
+  Get,
+  Param,
+  Body,
+  Delete,
+  Post,
+  BadRequestException,
+} from '@nestjs/common';
+import {
+  ApiAcceptedResponse,
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiExtraModels,
+  ApiResponse,
+  ApiTags,
+  getSchemaPath,
+} from '@nestjs/swagger';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { UserService } from 'src/services/user.service';
 import { User } from 'src/models/user.model';
 import { CreateUserDto } from 'src/resources/createUser.ressource';
+import { CreateUserEleveDto } from 'src/resources/createUserEleve.ressource';
+import { CreateUserProfDto } from 'src/resources/createUserProf.ressource';
+import { CreateUserAdminDto } from 'src/resources/createUserAdmin.ressource';
 import { Role, Roles } from 'src/auth/decorators/role.decorator';
 
 @ApiTags('Users')
@@ -23,13 +43,39 @@ export class UserController {
     return this.userService.findOne(id);
   }
 
+  // Route pour créer un admin
   @ApiBearerAuth()
   @Roles(Role.ADMIN)
-  @ApiAcceptedResponse({ type: CreateUserDto })
   @ApiResponse({ type: User })
-  @Post()
-  async create(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return this.userService.create(createUserDto);
+  @Post('create-admin')
+  async createUserAdmin(
+    @Body() createUserAdminDto: CreateUserAdminDto,
+  ): Promise<User> {
+    return this.userService.createAdmin(createUserAdminDto);
+  }
+
+  // Route pour créer un professeur
+  @ApiBearerAuth()
+  @Roles(Role.ADMIN)
+  @ApiResponse({ type: User })
+  @Post('create-prof')
+  async createUserProf(
+    @Body() createUserProfDto: CreateUserProfDto,
+  ): Promise<User> {
+    return this.userService.create(createUserProfDto as CreateUserDto);
+  }
+
+  // Route pour créer un élève
+  @ApiBearerAuth()
+  @Roles(Role.ADMIN)
+  @ApiResponse({ type: User })
+  @Post('create-eleve')
+  async createUserEleve(
+    @Body() createUserEleveDto: CreateUserEleveDto,
+  ): Promise<User> {
+    if (createUserEleveDto.classesIds.length > 1)
+      throw new BadRequestException('An eleve can only have one class');
+    return this.userService.create(createUserEleveDto as CreateUserDto);
   }
 
   @ApiBearerAuth()

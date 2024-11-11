@@ -19,7 +19,7 @@ export class UserClasse extends Model {
 
   @ForeignKey(() => User)
   @Column
-  profId: number;
+  userId: number;
 
   @ForeignKey(() => Classe)
   @Column

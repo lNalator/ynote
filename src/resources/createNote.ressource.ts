@@ -20,10 +20,4 @@ export class CreateNoteDto {
     required: true,
   })
   matiereId: number;
-
-  @ApiProperty({
-    example: 1,
-    required: true,
-  })
-  professeurId: number;
 }

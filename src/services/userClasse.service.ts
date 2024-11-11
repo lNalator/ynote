@@ -17,12 +17,13 @@ export class UserClasseService {
     return this.userClasseModel.findByPk(id) as any;
   }
 
-  async assignTo(professeurId: number, classeId: number): Promise<UserClasse> {
-    const diriger = {
-      professeurId,
+  async assignTo(userId: number, classeId: number): Promise<UserClasse> {
+    const userClass = {
+      userId,
       classeId,
     };
-    return this.userClasseModel.create(diriger as any);
+    console.log(userClass);
+    return this.userClasseModel.create(userClass as any);
   }
 
   async remove(id: string): Promise<void> {
