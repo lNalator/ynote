@@ -5,14 +5,20 @@ import {
   Body,
   Delete,
   Post,
+  Put,
 } from '@nestjs/common';
-import { ApiAcceptedResponse, ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiAcceptedResponse,
+  ApiBearerAuth,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { CreateRoleDto } from 'src/resources/createRole.ressource';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { RoleService } from 'src/services/role.service';
 import { Role } from 'src/models/role.model';
 import { Roles } from 'src/auth/decorators/role.decorator';
-import { Role as RoleEnum } from "../auth/decorators/role.decorator";
+import { Role as RoleEnum } from '../auth/decorators/role.decorator';
 
 @ApiTags('Roles')
 @Controller('roles')
@@ -33,11 +39,19 @@ export class RoleController {
 
   @ApiBearerAuth()
   @Roles(RoleEnum.ADMIN)
-  @ApiAcceptedResponse({ type: CreateRoleDto })
-  @ApiResponse({ type: Role })
   @Post()
   async create(@Body() createRoleDto: CreateRoleDto): Promise<Role> {
     return this.roleService.create(createRoleDto);
+  }
+
+  @ApiBearerAuth()
+  @Roles(RoleEnum.ADMIN)
+  @Put(':id')
+  async update(
+    @Param('id') id: number,
+    @Body() createRoleDto: CreateRoleDto,
+  ): Promise<void> {
+    return this.roleService.update(id, createRoleDto);
   }
 
   @ApiBearerAuth()

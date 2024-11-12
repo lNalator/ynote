@@ -37,11 +37,11 @@ export class NoteService {
     return newNote;
   }
 
-  // async update(id: number, note: Note): Promise<void> {
-  //   const noteToUpdate = await this.findOne(id);
-  //   await noteToUpdate.update(note);
-  //   this.userService.updateMoyenne(noteToUpdate.eleveId);
-  // }
+  async update(id: number, note: Partial<CreateNoteDto>): Promise<void> {
+    const noteToUpdate = await this.findOne(id);
+    await noteToUpdate.update(note);
+    this.userService.updateMoyenne(noteToUpdate.eleveId, noteToUpdate.matiereId);
+  }
 
   async delete(id: number): Promise<void> {
     const note = await this.findOne(id);

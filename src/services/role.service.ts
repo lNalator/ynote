@@ -25,6 +25,11 @@ export class RoleService {
     return await this.roleModel.create(createRoleDTO as any);
   }
 
+  async update(id: number, role: Partial<CreateRoleDto>): Promise<void> {
+    const roleToUpdate = await this.findOne(id);
+    await roleToUpdate.update(role);
+  }
+
   async remove(id: number): Promise<void> {
     await this.roleModel.destroy({ where: { id } });
   }

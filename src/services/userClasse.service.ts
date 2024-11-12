@@ -26,6 +26,16 @@ export class UserClasseService {
     return this.userClasseModel.create(userClass as any);
   }
 
+  async unassignFrom(userId: number, classeId: number): Promise<void> {
+    const userClass = await this.userClasseModel.findOne({
+      where: {
+        userId,
+        classeId,
+      },
+    });
+    if (userClass) await userClass.destroy();
+  }
+
   async remove(id: string): Promise<void> {
     const diriger = await this.findOne(id);
     await diriger.destroy();
