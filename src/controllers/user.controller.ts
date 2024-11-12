@@ -6,17 +6,12 @@ import {
   Delete,
   Post,
   BadRequestException,
-  Put,
+  Patch,
 } from '@nestjs/common';
 import {
-  ApiAcceptedResponse,
   ApiBearerAuth,
-  ApiBody,
-  ApiConsumes,
-  ApiExtraModels,
   ApiResponse,
   ApiTags,
-  getSchemaPath,
 } from '@nestjs/swagger';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { UserService } from 'src/services/user.service';
@@ -81,7 +76,7 @@ export class UserController {
 
   @ApiBearerAuth()
   @Roles(Role.ADMIN)
-  @Put(':id')
+  @Patch(':id')
   async update(
     @Param('id') id: number,
     @Body() createUserDto: CreateUserDto,

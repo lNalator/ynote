@@ -4,13 +4,11 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
-  Put,
 } from '@nestjs/common';
 import {
-  ApiAcceptedResponse,
   ApiBearerAuth,
-  ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { Public } from 'src/auth/decorators/public.decorator';
@@ -45,7 +43,7 @@ export class ClasseController {
 
   @ApiBearerAuth()
   @Roles(Role.ADMIN)
-  @Put(':id')
+  @Patch(':id')
   async update(
     @Param('id') id: number,
     @Body() createClasseDTO: CreateClasseDTO,
