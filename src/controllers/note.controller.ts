@@ -1,14 +1,11 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,
   Get,
-  NotFoundException,
   Param,
   Patch,
   Post,
-  Put,
 } from '@nestjs/common';
 import { Note } from 'src/models/note.model';
 import { NoteService } from 'src/services/note.service';
@@ -43,7 +40,7 @@ export class NoteController {
 
   @ApiBearerAuth()
   @Roles(Role.ADMIN, Role.PROFESSEUR)
-  @Put(':id')
+  @Patch(':id')
   async update(
     @Param('id') id: number,
     @Body() createNoteDto: CreateNoteDto,

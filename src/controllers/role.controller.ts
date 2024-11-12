@@ -5,14 +5,9 @@ import {
   Body,
   Delete,
   Post,
-  Put,
+  Patch,
 } from '@nestjs/common';
-import {
-  ApiAcceptedResponse,
-  ApiBearerAuth,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateRoleDto } from 'src/resources/createRole.ressource';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { RoleService } from 'src/services/role.service';
@@ -46,7 +41,7 @@ export class RoleController {
 
   @ApiBearerAuth()
   @Roles(RoleEnum.ADMIN)
-  @Put(':id')
+  @Patch(':id')
   async update(
     @Param('id') id: number,
     @Body() createRoleDto: CreateRoleDto,
