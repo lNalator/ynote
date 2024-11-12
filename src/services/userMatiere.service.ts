@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { UserMatiere } from 'src/models/userMatiere.model';
-import { UserService } from './user.service';
-import { MatieresService } from './matieres.service';
 
 @Injectable()
 export class UserMatiereService {
@@ -25,6 +23,16 @@ export class UserMatiereService {
       matiereId,
     };
     return this.userMatiereModel.create(userMatiere as any);
+  }
+
+  async unassignFrom(userId: number, matiereId: number): Promise<void> {
+    const userMatiere = await this.userMatiereModel.findOne({
+      where: {
+        userId,
+        matiereId,
+      },
+    });
+    if (userMatiere) await userMatiere.destroy();
   }
 
   async remove(id: string): Promise<void> {

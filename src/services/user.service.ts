@@ -114,6 +114,50 @@ export class UserService {
     return newUser;
   }
 
+  async update(id: number, updateUserDto: Partial<CreateUserDto>): Promise<void> {
+    const userToUpdate = await this.findOne(id);
+  
+    if (!userToUpdate) throw new Error('User not found');
+  
+    // Mettre à jour les champs de l'utilisateur
+    await userToUpdate.update(updateUserDto);
+  
+    // Gestion des Matières
+    if (updateUserDto.matieresIds) {
+      const existingMatieres = await userToUpdate.$get('matieres');
+      const existingMatiereIds = existingMatieres.map((m) => m.id);
+      // Supprimer les matières non incluses dans la mise à jour
+      const matieresToUnassign = existingMatiereIds.filter(id => !updateUserDto.matieresIds?.includes(id));
+      for (const matiereId of matieresToUnassign) {
+        await this.userMatierService.unassignFrom(userToUpdate.id, matiereId);
+      }
+      // Ajouter les nouvelles matières
+      const matieresToAssign = updateUserDto.matieresIds.filter(id => !existingMatiereIds.includes(id));
+      for (const matiereId of matieresToAssign) {
+        await this.userMatierService.assignTo(userToUpdate.id, matiereId);
+      }
+    }
+  
+    // Gestion des Classes
+    if (updateUserDto.classesIds) {
+      const existingClasses = await userToUpdate.$get('classes');
+      const existingClassIds = existingClasses.map((c) => c.id);
+  
+      // Supprimer les classes non incluses dans la mise à jour
+      const classesToUnassign = existingClassIds.filter(id => !updateUserDto.classesIds?.includes(id));
+      for (const classeId of classesToUnassign) {
+        await this.userClasseService.unassignFrom(userToUpdate.id, classeId);
+      }
+  
+      // Ajouter les nouvelles classes
+      const classesToAssign = updateUserDto.classesIds.filter(id => !existingClassIds.includes(id));
+      for (const classeId of classesToAssign) {
+        await this.userClasseService.assignTo(userToUpdate.id, classeId);
+      }
+    }
+  }
+  
+
   async remove(id: number): Promise<void> {
     await this.userModel.destroy({ where: { id } });
   }

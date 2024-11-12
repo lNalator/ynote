@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Classe } from 'src/models/classe.model';
-import { Matiere } from 'src/models/matiere.model';
 import { User } from 'src/models/user.model';
 
 import { CreateClasseDTO } from 'src/resources/createClasse.ressource';
@@ -25,6 +24,11 @@ export class ClasseService {
 
   async create(createClasseDTO: CreateClasseDTO): Promise<Classe> {
     return this.classeModel.create(createClasseDTO as any);
+  }
+
+  async update(id: number, classe: Partial<CreateClasseDTO>): Promise<void> {
+    const classeToUpdate = await this.findOne(id);
+    await classeToUpdate.update(classe);
   }
 
   async remove(id: number): Promise<void> {

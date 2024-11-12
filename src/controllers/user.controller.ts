@@ -6,6 +6,7 @@ import {
   Delete,
   Post,
   BadRequestException,
+  Put,
 } from '@nestjs/common';
 import {
   ApiAcceptedResponse,
@@ -76,6 +77,16 @@ export class UserController {
     if (createUserEleveDto.classesIds.length > 1)
       throw new BadRequestException('An eleve can only have one class');
     return this.userService.create(createUserEleveDto as CreateUserDto);
+  }
+
+  @ApiBearerAuth()
+  @Roles(Role.ADMIN)
+  @Put(':id')
+  async update(
+    @Param('id') id: number,
+    @Body() createUserDto: CreateUserDto,
+  ): Promise<void> {
+    return this.userService.update(id, createUserDto);
   }
 
   @ApiBearerAuth()

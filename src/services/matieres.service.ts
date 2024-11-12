@@ -24,6 +24,11 @@ export class MatieresService {
     return this.matiereModel.create(createMatiereDTO as any);
   }
 
+  async update(id: number, matiere: Partial<CreateMatiereDTO>): Promise<void> {
+    const matiereToUpdate = await this.findOne(id);
+    await matiereToUpdate.update(matiere);
+  }
+
   async remove(id: number): Promise<void> {
     const matiere = await this.findOne(id);
     await matiere.destroy();

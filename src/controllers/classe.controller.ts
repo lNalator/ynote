@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import {
   ApiAcceptedResponse,
   ApiBearerAuth,
@@ -30,10 +38,19 @@ export class ClasseController {
 
   @ApiBearerAuth()
   @Roles(Role.ADMIN)
-  @ApiAcceptedResponse({ type: CreateClasseDTO })
   @Post()
   async create(@Body() createClasseDTO: CreateClasseDTO): Promise<Classe> {
     return this.classeService.create(createClasseDTO);
+  }
+
+  @ApiBearerAuth()
+  @Roles(Role.ADMIN)
+  @Put(':id')
+  async update(
+    @Param('id') id: number,
+    @Body() createClasseDTO: CreateClasseDTO,
+  ): Promise<void> {
+    return this.classeService.update(id, createClasseDTO);
   }
 
   @ApiBearerAuth()
